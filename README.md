@@ -24,7 +24,7 @@ Este é um projeto de blog desenvolvido em Spring 3.1, utilizando Java 17 como l
 
 1. Clonando o Repositório:
 ```
-git clone https://github.com/seu-usuario/blog-spring-3.1.git
+git clone git@github.com:LuizReis-dev/blog-java.git
 ```
 
 2. Configurando o Banco de Dados: Crie um banco de dados MySQL e configure as credenciais no arquivo application.properties.
@@ -32,7 +32,7 @@ git clone https://github.com/seu-usuario/blog-spring-3.1.git
 3. Compilando e Executando:
 
 ```
-cd blog-spring-3.1
+cd blog-java
 ./mvnw clean install
 ./mvnw spring-boot:run
 ```

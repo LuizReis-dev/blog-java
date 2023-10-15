@@ -19,7 +19,7 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private String email;
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(columnDefinition = "DEFAULT CURRENT_TIMESTAMP")
     private Instant createdAt;
 
     public User() {

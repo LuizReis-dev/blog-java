@@ -1,7 +1,7 @@
 package com.luizreis.blogspring.infra.config;
 
 import com.luizreis.blogspring.repositories.UserRepository;
-import com.luizreis.blogspring.service.exceptions.ResourceNotFoundException;
+import com.luizreis.blogspring.services.exceptions.ResourceNotFoundException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

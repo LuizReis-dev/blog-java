@@ -1,4 +1,4 @@
-package com.luizreis.blogspring.service.exceptions;
+package com.luizreis.blogspring.services.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException{
 

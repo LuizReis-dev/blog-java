@@ -1,11 +1,14 @@
 package com.luizreis.blogspring.domain.user;
 
+import com.luizreis.blogspring.domain.post.Post;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,9 +22,10 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private String email;
-    @Column(columnDefinition = "DEFAULT CURRENT_TIMESTAMP")
-    private Instant createdAt;
 
+    private Instant createdAt;
+    @OneToMany(mappedBy = "author")
+    private List<Post> posts = new ArrayList<>();
     public User() {
     }
 
@@ -44,8 +48,6 @@ public class User implements UserDetails {
     public String getUsername() {
         return username;
     }
-
-
 
     public void setUsername(String username) {
         this.username = username;
@@ -74,6 +76,9 @@ public class User implements UserDetails {
         this.createdAt = createdAt;
     }
 
+    public List<Post> getPosts() {
+        return posts;
+    }
 
     @Override
     public boolean isAccountNonExpired() {

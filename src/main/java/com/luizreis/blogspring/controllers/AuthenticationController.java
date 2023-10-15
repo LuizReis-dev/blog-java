@@ -4,6 +4,7 @@ import com.luizreis.blogspring.dtos.auth.LoginDTO;
 import com.luizreis.blogspring.dtos.auth.SignupDTO;
 import com.luizreis.blogspring.dtos.auth.TokenDTO;
 import com.luizreis.blogspring.services.AuthenticationService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,12 +22,12 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/signup")
-    public ResponseEntity<TokenDTO> register(@RequestBody SignupDTO dto){
+    public ResponseEntity<TokenDTO> register(@Valid @RequestBody SignupDTO dto){
         return ResponseEntity.ok(service.register(dto));
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<TokenDTO> login(@RequestBody LoginDTO dto){
+    public ResponseEntity<TokenDTO> login(@Valid @RequestBody LoginDTO dto){
         return ResponseEntity.ok(service.login(dto));
     }
 }

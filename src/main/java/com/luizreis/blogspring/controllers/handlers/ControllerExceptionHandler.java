@@ -2,6 +2,8 @@ package com.luizreis.blogspring.controllers.handlers;
 
 import com.luizreis.blogspring.dtos.error.CustomError;
 import com.luizreis.blogspring.dtos.error.ValidationError;
+import com.luizreis.blogspring.services.exceptions.IllegalOperation;
+import com.luizreis.blogspring.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,20 @@ public class ControllerExceptionHandler {
         for(FieldError f : e.getBindingResult().getFieldErrors()){
             error.addError(f.getField(),f.getDefaultMessage());
         }
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<CustomError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request){
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        CustomError error = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(IllegalOperation.class)
+    public ResponseEntity<CustomError> illegalOperation(IllegalOperation e, HttpServletRequest request){
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomError error = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(error);
     }
 }

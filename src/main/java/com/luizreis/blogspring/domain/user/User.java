@@ -26,6 +26,7 @@ public class User implements UserDetails {
     private Instant createdAt;
     @OneToMany(mappedBy = "author")
     private List<Post> posts = new ArrayList<>();
+
     public User() {
     }
 

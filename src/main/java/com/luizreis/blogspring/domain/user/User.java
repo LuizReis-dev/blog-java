@@ -1,5 +1,6 @@
 package com.luizreis.blogspring.domain.user;
 
+import com.luizreis.blogspring.domain.comment.Comment;
 import com.luizreis.blogspring.domain.post.Post;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,6 +28,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "author")
     private List<Post> posts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "author")
+    private List<Comment> comments = new ArrayList<>();
     public User() {
     }
 
@@ -80,6 +83,11 @@ public class User implements UserDetails {
     public List<Post> getPosts() {
         return posts;
     }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
 
     @Override
     public boolean isAccountNonExpired() {

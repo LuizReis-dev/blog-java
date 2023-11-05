@@ -1,16 +1,14 @@
-package com.luizreis.blogspring.domain.post;
+package com.luizreis.blogspring.domain.comment;
 
-import com.luizreis.blogspring.domain.comment.Comment;
+import com.luizreis.blogspring.domain.post.Post;
 import com.luizreis.blogspring.domain.user.User;
 import jakarta.persistence.*;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "tb_posts")
-public class Post {
+@Table(name = "tb_comments")
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,21 +16,23 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
-
     @Column(columnDefinition = "TEXT")
     private String text;
     private Instant postedAt;
-    @OneToMany(mappedBy = "post")
-    private List<Comment> comments = new ArrayList<>();
 
-    public Post() {
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    public Comment() {
     }
 
-    public Post(Long id, User author, String text, Instant postedAt) {
+    public Comment(Long id, User author, String text, Instant postedAt, Post post) {
         this.id = id;
         this.author = author;
         this.text = text;
         this.postedAt = postedAt;
+        this.post = post;
     }
 
     public Long getId() {
@@ -67,7 +67,11 @@ public class Post {
         this.postedAt = postedAt;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

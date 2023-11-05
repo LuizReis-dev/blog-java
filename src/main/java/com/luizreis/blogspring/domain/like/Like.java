@@ -13,7 +13,7 @@ import java.time.Instant;
 public class Like {
 
     @EmbeddedId
-    private LikePK id;
+    private LikePK id = new LikePK();
     private Instant likedAt;
 
     public Like() {

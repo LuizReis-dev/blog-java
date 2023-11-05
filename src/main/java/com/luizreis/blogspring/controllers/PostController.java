@@ -1,13 +1,11 @@
 package com.luizreis.blogspring.controllers;
 
+import com.luizreis.blogspring.dtos.like.LikeDTO;
 import com.luizreis.blogspring.dtos.post.PostDTO;
 import com.luizreis.blogspring.services.PostService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/post")
@@ -24,4 +22,8 @@ public class PostController {
         return ResponseEntity.ok(service.insert(dto));
     }
 
+    @PostMapping("/like/{postId}")
+    public ResponseEntity<LikeDTO> like(@PathVariable Long postId){
+        return ResponseEntity.ok(service.like(postId));
+    }
 }

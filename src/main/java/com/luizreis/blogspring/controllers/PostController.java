@@ -23,13 +23,4 @@ public class PostController {
         return ResponseEntity.ok(service.insert(dto));
     }
 
-    @PostMapping("/like/{postId}")
-    public ResponseEntity<LikeDTO> like(@PathVariable Long postId){
-        return ResponseEntity.ok(service.like(postId));
-    }
-
-    @PostMapping("/comment/{postId}")
-    public ResponseEntity<CommentDTO> comment(@PathVariable Long postId, @Valid @RequestBody CommentDTO commentDTO){
-        return ResponseEntity.ok(service.comment(postId, commentDTO));
-    }
 }

@@ -1,5 +1,6 @@
 package com.luizreis.blogspring.controllers;
 
+import com.luizreis.blogspring.dtos.comment.CommentDTO;
 import com.luizreis.blogspring.dtos.like.LikeDTO;
 import com.luizreis.blogspring.dtos.post.PostDTO;
 import com.luizreis.blogspring.services.PostService;
@@ -25,5 +26,10 @@ public class PostController {
     @PostMapping("/like/{postId}")
     public ResponseEntity<LikeDTO> like(@PathVariable Long postId){
         return ResponseEntity.ok(service.like(postId));
+    }
+
+    @PostMapping("/comment/{postId}")
+    public ResponseEntity<CommentDTO> comment(@PathVariable Long postId, @Valid @RequestBody CommentDTO commentDTO){
+        return ResponseEntity.ok(service.comment(postId, commentDTO));
     }
 }

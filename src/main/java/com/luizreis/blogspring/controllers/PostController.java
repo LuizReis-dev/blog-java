@@ -19,8 +19,13 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostDTO> insert(@Valid @RequestBody PostDTO dto){
+    public ResponseEntity<PostDTO> insert(@Valid @RequestBody PostDTO dto) {
         return ResponseEntity.ok(service.insert(dto));
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

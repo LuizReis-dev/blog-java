@@ -2,6 +2,7 @@ package com.luizreis.blogspring.controllers.handlers;
 
 import com.luizreis.blogspring.dtos.error.CustomError;
 import com.luizreis.blogspring.dtos.error.ValidationError;
+import com.luizreis.blogspring.services.exceptions.ForbiddenException;
 import com.luizreis.blogspring.services.exceptions.IllegalOperation;
 import com.luizreis.blogspring.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,6 +39,13 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(IllegalOperation.class)
     public ResponseEntity<CustomError> illegalOperation(IllegalOperation e, HttpServletRequest request){
         HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomError error = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<CustomError> forbiddenException(ForbiddenException e, HttpServletRequest request){
+        HttpStatus status = HttpStatus.FORBIDDEN;
         CustomError error = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(error);
     }

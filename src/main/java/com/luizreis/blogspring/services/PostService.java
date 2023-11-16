@@ -10,6 +10,7 @@ import com.luizreis.blogspring.dtos.post.PostDTO;
 import com.luizreis.blogspring.repositories.CommentRepository;
 import com.luizreis.blogspring.repositories.LikeRepository;
 import com.luizreis.blogspring.repositories.PostRepository;
+import com.luizreis.blogspring.services.exceptions.ForbiddenException;
 import com.luizreis.blogspring.services.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,4 +39,18 @@ public class PostService {
         return new PostDTO(repository.save(post));
     }
 
+    @Transactional
+    public void delete(Long id) {
+
+        User loggedUser = userService.getAuthenticatedUser();
+
+        Post post = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found!"));
+
+        if(post.getAuthor().getId() != loggedUser.getId()) {
+            throw new ForbiddenException("Permission denied!");
+        }
+
+        repository.deleteById(id);
+    }
 }

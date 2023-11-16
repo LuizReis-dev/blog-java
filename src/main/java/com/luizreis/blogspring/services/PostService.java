@@ -7,6 +7,7 @@ import com.luizreis.blogspring.domain.user.User;
 import com.luizreis.blogspring.dtos.comment.CommentDTO;
 import com.luizreis.blogspring.dtos.like.LikeDTO;
 import com.luizreis.blogspring.dtos.post.PostDTO;
+import com.luizreis.blogspring.dtos.post.PostMinDTO;
 import com.luizreis.blogspring.repositories.CommentRepository;
 import com.luizreis.blogspring.repositories.LikeRepository;
 import com.luizreis.blogspring.repositories.PostRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
 public class PostService {
@@ -52,5 +54,13 @@ public class PostService {
         }
 
         repository.deleteById(id);
+    }
+
+    public List<PostMinDTO> getLoggedUserTimeline(){
+        User loggedUser = userService.getAuthenticatedUser();
+        List<PostMinDTO> posts = repository.selectUserTimelinePosts(loggedUser.getId())
+                .stream().map(projection -> new PostMinDTO(projection)).toList();
+
+        return posts;
     }
 }

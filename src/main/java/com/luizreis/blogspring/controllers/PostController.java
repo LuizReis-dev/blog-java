@@ -3,10 +3,13 @@ package com.luizreis.blogspring.controllers;
 import com.luizreis.blogspring.dtos.comment.CommentDTO;
 import com.luizreis.blogspring.dtos.like.LikeDTO;
 import com.luizreis.blogspring.dtos.post.PostDTO;
+import com.luizreis.blogspring.dtos.post.PostMinDTO;
 import com.luizreis.blogspring.services.PostService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/post")
@@ -28,4 +31,10 @@ public class PostController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping(value = "/timeline")
+    public ResponseEntity<List<PostMinDTO>> timeline() {
+        return ResponseEntity.ok(service.getLoggedUserTimeline());
+    }
+
 }

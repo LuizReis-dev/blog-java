@@ -63,4 +63,13 @@ public class PostService {
 
         return posts;
     }
+
+    public List<PostMinDTO> getPostsByUser(Long userId){
+        repository.findById(userId).orElseThrow(() -> { throw new ResourceNotFoundException("User not found!");});
+
+        List<PostMinDTO> posts = repository.selectPostsByUser(userId)
+                .stream().map(projection -> new PostMinDTO(projection)).toList();
+
+        return posts;
+    }
 }

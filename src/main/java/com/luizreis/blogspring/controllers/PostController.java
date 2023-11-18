@@ -37,4 +37,8 @@ public class PostController {
         return ResponseEntity.ok(service.getLoggedUserTimeline());
     }
 
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity<List<PostMinDTO>> getByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(service.getPostsByUser(userId));
+    }
 }

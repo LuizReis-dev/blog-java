@@ -6,6 +6,7 @@ import com.luizreis.blogspring.domain.user.User;
 import com.luizreis.blogspring.dtos.comment.CommentDTO;
 import com.luizreis.blogspring.repositories.CommentRepository;
 import com.luizreis.blogspring.repositories.PostRepository;
+import com.luizreis.blogspring.services.exceptions.ForbiddenException;
 import com.luizreis.blogspring.services.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,6 @@ public class CommentService {
         this.postRepository = postRepository;
     }
 
-
     @Transactional
     public CommentDTO create(Long postId, CommentDTO dto) {
         User loggedUser = userService.getAuthenticatedUser();
@@ -40,5 +40,18 @@ public class CommentService {
         comment.setText(dto.getText());
 
         return new CommentDTO(repository.save(comment));
+    }
+
+    @Transactional
+    public void delete(Long commentId){
+        User loggedUser = userService.getAuthenticatedUser();
+
+        Comment comment = repository.findById(commentId)
+                 .orElseThrow(() -> new ResourceNotFoundException("Comment not found!"));
+
+        if((loggedUser.getId() != comment.getAuthor().getId()) && (loggedUser.getId() != comment.getPost().getAuthor().getId()))
+            throw new ForbiddenException("Permission denied!");
+
+        repository.delete(comment);
     }
 }

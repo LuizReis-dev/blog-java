@@ -19,4 +19,10 @@ public class CommentController {
     public ResponseEntity<CommentDTO> comment(@PathVariable Long postId, @Valid @RequestBody CommentDTO commentDTO){
         return ResponseEntity.ok(service.create(postId, commentDTO));
     }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Void> comment(@PathVariable Long commentId){
+        service.delete(commentId);
+        return ResponseEntity.noContent().build();
+    }
 }

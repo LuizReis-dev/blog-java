@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LikeService {
@@ -53,4 +55,13 @@ public class LikeService {
         repository.delete(like);
     }
 
+    public List<LikeDTO> getLikesByPost(Long postId){
+        postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found!"));
+
+        List<LikeDTO> likes = repository.selectLikesByPost(postId)
+                .stream().map(projection -> new LikeDTO(projection)).collect(Collectors.toList());
+
+        return likes;
+    }
 }

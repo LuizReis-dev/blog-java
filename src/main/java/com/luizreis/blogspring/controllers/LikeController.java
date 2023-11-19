@@ -5,6 +5,8 @@ import com.luizreis.blogspring.services.LikeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/like")
 public class LikeController {
@@ -23,5 +25,10 @@ public class LikeController {
     public ResponseEntity<Void> delete(@PathVariable Long postId){
         service.delete(postId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "/post/{postId}")
+    public ResponseEntity<List<LikeDTO>> getLikesByPost(@PathVariable Long postId){
+        return ResponseEntity.ok(service.getLikesByPost(postId));
     }
 }

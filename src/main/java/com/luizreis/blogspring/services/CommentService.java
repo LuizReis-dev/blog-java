@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -53,5 +55,16 @@ public class CommentService {
             throw new ForbiddenException("Permission denied!");
 
         repository.delete(comment);
+    }
+
+    public List<CommentDTO> getCommentsByPost(Long postId){
+
+        postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found!"));
+
+        List<CommentDTO> comments =  repository.selectCommentByPostId(postId)
+                .stream().map(projection -> new CommentDTO(projection)).collect(Collectors.toList());
+
+        return comments;
     }
 }

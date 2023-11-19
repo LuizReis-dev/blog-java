@@ -6,6 +6,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/comment")
 public class CommentController {
@@ -24,5 +26,10 @@ public class CommentController {
     public ResponseEntity<Void> comment(@PathVariable Long commentId){
         service.delete(commentId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<List<CommentDTO>> getCommentsByPost(@PathVariable Long postId){
+        return ResponseEntity.ok(service.getCommentsByPost(postId));
     }
 }

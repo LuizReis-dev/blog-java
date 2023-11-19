@@ -1,6 +1,7 @@
 package com.luizreis.blogspring.domain.post;
 
 import com.luizreis.blogspring.domain.comment.Comment;
+import com.luizreis.blogspring.domain.like.Like;
 import com.luizreis.blogspring.domain.user.User;
 import jakarta.persistence.*;
 
@@ -22,9 +23,11 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String text;
     private Instant postedAt;
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "id.post", cascade = CascadeType.ALL)
+    private List<Like> likes = new ArrayList<>();
     public Post() {
     }
 
@@ -69,5 +72,9 @@ public class Post {
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    public List<Like> getLikes() {
+        return likes;
     }
 }

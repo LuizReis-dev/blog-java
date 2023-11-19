@@ -1,6 +1,7 @@
 package com.luizreis.blogspring.services;
 
 import com.luizreis.blogspring.domain.like.Like;
+import com.luizreis.blogspring.domain.like.LikePK;
 import com.luizreis.blogspring.domain.post.Post;
 import com.luizreis.blogspring.domain.user.User;
 import com.luizreis.blogspring.dtos.like.LikeDTO;
@@ -36,4 +37,20 @@ public class LikeService {
 
         return new LikeDTO(repository.save(like));
     }
+
+    @Transactional
+    public void delete(Long postId){
+        User loggedUser = userService.getAuthenticatedUser();
+
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found!"));
+
+        LikePK likeId = new LikePK(loggedUser, post);
+
+        Like like = repository.findById(likeId)
+                .orElseThrow(() -> new ResourceNotFoundException("This post was not liked by this user"));
+
+        repository.delete(like);
+    }
+
 }
